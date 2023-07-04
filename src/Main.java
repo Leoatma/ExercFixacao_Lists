@@ -37,7 +37,7 @@ public class Main {
             int idFunci = scanner.nextInt();
             scanner.nextLine();
 
-            while (!checarExistenciaID(idFunci)) {
+            while (checarExistenciaID(idFunci)) {
                 System.out.printf("Id %d já existe. Atribua outro: ", idFunci);
                 idFunci = scanner.nextInt();
                 scanner.nextLine();
@@ -47,7 +47,7 @@ public class Main {
         }
     }
     public static boolean checarExistenciaID(int id) {
-        return listaFuncionarios.stream().noneMatch(x -> x.getId() == id); // se houver ocorrencia do id > false,  se não houver > true
+        return listaFuncionarios.stream().anyMatch(x -> x.getId() == id); // se houver ocorrencia do id > true,  se não houver > false
     }
 
     public static void efetuarAumentoSalario(Scanner scanner) {
