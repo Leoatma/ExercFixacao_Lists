@@ -18,7 +18,7 @@ public class Main {
 
         cadastrarFuncionários(qtdeFuncionarios, scanner);
 
-        efetuarAumento(scanner);
+        efetuarAumentoSalario(scanner);
 
         imprimirListaFuncionarios();
 
@@ -37,7 +37,7 @@ public class Main {
             int idFunci = scanner.nextInt();
             scanner.nextLine();
 
-            while (!checarID(idFunci)) {
+            while (!checarExistenciaID(idFunci)) {
                 System.out.printf("Id %d já existe. Atribua outro: ", idFunci);
                 idFunci = scanner.nextInt();
                 scanner.nextLine();
@@ -46,27 +46,24 @@ public class Main {
             listaFuncionarios.add(new Funcionarios(idFunci, nomeFunci, salarioFunci));
         }
     }
-    public static boolean checarID(int id) {
-        return listaFuncionarios.stream().noneMatch(x -> x.getId() == id);
+    public static boolean checarExistenciaID(int id) {
+        return listaFuncionarios.stream().noneMatch(x -> x.getId() == id); // se houver ocorrencia do id > false,  se não houver > true
     }
 
-    public static void efetuarAumento(Scanner scanner) {
-        System.out.println("Informe agora o id do funcionário ao qual deseja realizar o aumento de salário: ");
+    public static void efetuarAumentoSalario(Scanner scanner) {
+        System.out.println("Informe o id do funcionário ao qual deseja realizar o aumento de salário: ");
         int idAumentoSal = scanner.nextInt();
         scanner.nextLine();
 
-        if (checarID(idAumentoSal)) {
-            System.out.println("Id não existe");
-        } else {
+        Funcionarios funcionario = listaFuncionarios.stream().filter(x -> x.getId() == idAumentoSal).findFirst().orElse(null);
+        if (funcionario != null) {
             System.out.println("Qual a porcentagem de aumento? ");
             double aumentoSal = scanner.nextDouble() / 100;
-
-            for (Funcionarios funci : listaFuncionarios) {
-                if (funci.getId() == idAumentoSal) {
-                    funci.setSalario(funci.getSalario() * (aumentoSal + 1));
-                }
-            }
+            funcionario.setSalario(funcionario.getSalario() * (aumentoSal + 1));
+        } else {
+            System.out.println("Este id não existe.");
         }
+
     }
 
     public static void imprimirListaFuncionarios() {
