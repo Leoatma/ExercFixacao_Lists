@@ -22,6 +22,8 @@ public class Main {
 
         imprimirListaFuncionarios();
 
+        scanner.close();
+
     }
 
     public static void cadastrarFuncionários(int qtdeFuncionarios, Scanner scanner) {
